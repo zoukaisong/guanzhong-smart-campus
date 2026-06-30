@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# WeChat Mini Program
+miniprogram/node_modules/
+
+# Cloud functions
+cloudfunctions/*/node_modules/
+
+# Temp files
+.~*
+~$*
