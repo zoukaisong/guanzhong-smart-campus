@@ -1,0 +1,226 @@
+/* ===== 关中智慧校园 — 全局样式 ===== */
+
+/* ---- CSS 变量 ---- */
+page {
+  --color-primary: #1a6e3e;
+  --color-primary-light: #2e8b57;
+  --color-primary-dark: #145230;
+  --color-danger: #d9534f;
+  --color-warning: #f0ad4e;
+  --color-info: #5bc0de;
+  --color-success: #5cb85c;
+  --color-text: #333333;
+  --color-text-secondary: #666666;
+  --color-text-light: #999999;
+  --color-bg: #f5f5f5;
+  --color-bg-white: #ffffff;
+  --color-border: #e5e5e5;
+  --color-divider: #f0f0f0;
+  --font-size-xs: 22rpx;
+  --font-size-sm: 24rpx;
+  --font-size-md: 28rpx;
+  --font-size-lg: 32rpx;
+  --font-size-xl: 36rpx;
+  --spacing-xs: 8rpx;
+  --spacing-sm: 12rpx;
+  --spacing-md: 16rpx;
+  --spacing-lg: 24rpx;
+  --spacing-xl: 32rpx;
+  --radius-sm: 6rpx;
+  --radius-md: 12rpx;
+  --radius-lg: 16rpx;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.6;
+}
+
+/* ---- 通用容器 ---- */
+.page-container {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+
+.section-card {
+  margin: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: var(--color-bg-white);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+}
+
+/* ---- 弹性布局 ---- */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-between {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+/* ---- 文字 ---- */
+.text-primary {
+  color: var(--color-primary);
+}
+.text-danger {
+  color: var(--color-danger);
+}
+.text-warning {
+  color: var(--color-warning);
+}
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+.text-light {
+  color: var(--color-text-light);
+}
+.text-xs {
+  font-size: var(--font-size-xs);
+}
+.text-sm {
+  font-size: var(--font-size-sm);
+}
+.text-md {
+  font-size: var(--font-size-md);
+}
+.text-lg {
+  font-size: var(--font-size-lg);
+}
+.text-xl {
+  font-size: var(--font-size-xl);
+}
+.text-bold {
+  font-weight: 700;
+}
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- 间距 ---- */
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.ml-sm { margin-left: var(--spacing-sm); }
+.mr-sm { margin-right: var(--spacing-sm); }
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+
+/* ---- 按钮 ---- */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-md);
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-md);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1rpx solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-md);
+}
+
+/* ---- 状态标签 ---- */
+.tag {
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  font-size: var(--font-size-xs);
+  margin-right: var(--spacing-xs);
+  margin-bottom: var(--spacing-xs);
+}
+
+.tag-primary {
+  background-color: rgba(26, 110, 62, 0.1);
+  color: var(--color-primary);
+}
+
+.tag-danger {
+  background-color: rgba(217, 83, 79, 0.1);
+  color: var(--color-danger);
+}
+
+.tag-warning {
+  background-color: rgba(240, 173, 78, 0.1);
+  color: var(--color-warning);
+}
+
+.tag-info {
+  background-color: rgba(91, 192, 222, 0.1);
+  color: var(--color-info);
+}
+
+.tag-default {
+  background-color: #f0f0f0;
+  color: var(--color-text-secondary);
+}
+
+/* ---- 分割线 ---- */
+.divider {
+  height: 1rpx;
+  background-color: var(--color-divider);
+  margin: var(--spacing-md) 0;
+}
+
+/* ---- 空状态 ---- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.empty-state-icon {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0.4;
+}
+
+.empty-state-text {
+  font-size: var(--font-size-md);
+  color: var(--color-text-light);
+}

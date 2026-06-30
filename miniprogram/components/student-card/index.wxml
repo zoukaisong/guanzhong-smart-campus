@@ -1,0 +1,21 @@
+<view class="student-card" bindtap="onTap">
+  <view class="card-left">
+    <view class="student-name">{{student.name}}</view>
+    <view class="student-info">
+      <text wx:if="{{showClass && student.class_name}}" class="info-class">{{student.class_name}}</text>
+      <text class="info-gender">{{student.gender === 'male' ? '男' : '女'}}</text>
+      <text class="info-id">{{student.id_card_display || '****'}}</text>
+    </view>
+    <!-- 在籍不在校状态 -->
+    <view wx:if="{{student.out_of_school_status}}" class="out-status">
+      <status-badge type="warning" text="{{student.out_of_school_status === 'tracking' ? '跟踪中' : student.out_of_school_status === 'persuading' ? '劝学中' : student.out_of_school_status === 'visiting' ? '家访中' : student.out_of_school_status === 'returned' ? '已返校' : student.out_of_school_status === 'confirmed' ? '已确认' : student.out_of_school_status}}" />
+    </view>
+    <!-- 标签 -->
+    <view wx:if="{{showTags && student.tags && student.tags.length > 0}}" class="tag-row">
+      <text wx:for="{{student.tags}}" wx:key="name" wx:for-item="tag" class="tag tag-primary">{{tag.name}}</text>
+    </view>
+  </view>
+  <view wx:if="{{tapable}}" class="card-right">
+    <text class="arrow">›</text>
+  </view>
+</view>

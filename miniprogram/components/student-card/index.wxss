@@ -1,0 +1,44 @@
+.student-card {
+  display: flex;
+  align-items: flex-start;
+  padding: 24rpx;
+  margin: 16rpx 24rpx;
+  background: #fff;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
+}
+.card-left { flex: 1; }
+.student-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+.out-status { margin-bottom: 6rpx; }
+.tag-row { display: flex; flex-wrap: wrap; margin-top: 8rpx; }
+.tag {
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  margin-right: 8rpx;
+  margin-bottom: 4rpx;
+}
+.tag-primary { background: rgba(26,110,62,0.1); color: #1a6e3e; }
+.card-right {
+  display: flex;
+  align-items: center;
+  padding-left: 16rpx;
+}
+.arrow {
+  font-size: 40rpx;
+  color: #ccc;
+}

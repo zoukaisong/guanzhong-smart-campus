@@ -1,0 +1,74 @@
+<view class="tag-page">
+  <!-- Step 1: 搜索学生 -->
+  <view wx:if="{{step === 'select_student'}}" class="step-section">
+    <view class="step-title">选择学生</view>
+    <view class="search-row">
+      <input class="search-input" placeholder="搜索学生姓名" value="{{studentKeyword}}" bindinput="onSearchInput" confirm-type="search" bindconfirm="onSearchStudent" />
+      <button class="search-btn" bindtap="onSearchStudent">搜索</button>
+    </view>
+    <student-card
+      wx:for="{{studentList}}" wx:key="_id"
+      student="{{item}}"
+      bind:tap="onSelectStudent" />
+    <empty-state wx:if="{{studentList.length === 0}}" text="输入姓名搜索学生" icon="🔍" />
+  </view>
+
+  <!-- Step 2: 选择标签 -->
+  <view wx:if="{{step === 'select_tags'}}" class="step-section">
+    <view class="step-header">
+      <text class="back-btn" bindtap="onBackToStudent">← 返回</text>
+      <text class="step-title">为 {{selectedStudent.name}} 选择标签</text>
+    </view>
+
+    <view wx:for="{{tagGroups}}" wx:key="group" class="tag-group">
+      <text class="group-title">{{item.group}}</text>
+      <view class="tag-grid">
+        <view
+          wx:for="{{item.items}}" wx:key="name"
+          class="tag-item {{selectedTags.indexOf(item.name) > -1 ? 'tag-item-selected' : ''}}"
+          data-name="{{item.name}}"
+          bindtap="onToggleTag">
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+
+    <view class="desc-section">
+      <text class="desc-label">补充描述（可选）</text>
+      <textarea class="desc-input" placeholder="请补充具体情况说明..." value="{{tagDescription}}" bindinput="onDescInput" maxlength="500" />
+    </view>
+
+    <button class="confirm-btn" bindtap="onConfirmSubmit" disabled="{{selectedTags.length === 0}}">
+      确认选择（{{selectedTags.length}}）
+    </button>
+  </view>
+
+  <!-- Step 3: 确认 -->
+  <view wx:if="{{step === 'confirm'}}" class="step-section">
+    <view class="step-header">
+      <text class="back-btn" bindtap="onBackToTags">← 返回</text>
+      <text class="step-title">确认提交</text>
+    </view>
+
+    <view class="confirm-card">
+      <text class="confirm-label">学生</text>
+      <text class="confirm-value">{{selectedStudent.name}} · {{selectedStudent.class_name}}</text>
+    </view>
+
+    <view class="confirm-card">
+      <text class="confirm-label">所选标签</text>
+      <view class="confirm-tags">
+        <text wx:for="{{selectedTags}}" wx:key="*this" class="confirm-tag">{{item}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{tagDescription}}" class="confirm-card">
+      <text class="confirm-label">补充描述</text>
+      <text class="confirm-value">{{tagDescription}}</text>
+    </view>
+
+    <button class="submit-btn" bindtap="onSubmit" loading="{{submitting}}" disabled="{{submitting}}">
+      提交
+    </button>
+  </view>
+</view>

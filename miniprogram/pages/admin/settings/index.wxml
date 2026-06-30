@@ -1,0 +1,22 @@
+<view class="settings-page">
+  <view wx:if="{{!isAdmin}}">
+    <empty-state text="仅管理员可访问此页面" icon="🔒" />
+  </view>
+
+  <block wx:else>
+    <view class="page-title">系统设置</view>
+
+    <view
+      wx:for="{{settings}}" wx:key="title"
+      class="setting-item"
+      data-title="{{item.title}}"
+      bindtap="onTapSetting">
+      <text class="setting-icon">{{item.icon}}</text>
+      <view class="setting-info">
+        <text class="setting-title">{{item.title}}</text>
+        <text class="setting-desc">{{item.desc}}</text>
+      </view>
+      <text class="setting-arrow">›</text>
+    </view>
+  </block>
+</view>

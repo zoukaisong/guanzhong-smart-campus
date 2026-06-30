@@ -1,0 +1,8 @@
+<view class="import-page">
+  <view class="import-card">
+    <text class="import-icon">📁</text>
+    <text class="import-title">Excel 批量导入学生</text>
+    <text class="import-desc">支持导入学生基础信息，模板格式详见需求文档第19节</text>
+    <button class="choose-btn" bindtap="onChooseFile">选择 Excel 文件</button>
+  </view>
+</view>

@@ -1,0 +1,27 @@
+<view class="approvals-page">
+  <view wx:if="{{!isAdmin}}" class="no-permission">
+    <empty-state text="仅管理员可访问此页面" icon="🔒" />
+  </view>
+
+  <block wx:else>
+    <view class="page-title">用户审核（{{total}}）</view>
+
+    <view wx:for="{{pendingList}}" wx:key="_id" class="approval-card">
+      <view class="card-header">
+        <text class="user-name">{{item.name}}</text>
+        <text class="user-role">{{item.role_label}}</text>
+      </view>
+      <view class="card-body">
+        <text class="user-phone">{{item.phone}}</text>
+        <text class="user-time">申请时间: {{item.create_time}}</text>
+      </view>
+      <view class="card-actions">
+        <button class="btn-approve" data-user-id="{{item._id}}" bindtap="onApprove">通过</button>
+        <button class="btn-reject" data-user-id="{{item._id}}" bindtap="onReject">拒绝</button>
+      </view>
+    </view>
+
+    <empty-state wx:if="{{!loading && pendingList.length === 0}}" text="暂无待审核用户" icon="✅" />
+    <view wx:if="{{loading}}" class="loading-tip">加载中...</view>
+  </block>
+</view>

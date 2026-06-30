@@ -1,0 +1,7 @@
+<view class="navbar" style="background-color: {{backgroundColor}};">
+  <view wx:if="{{showBack}}" class="navbar-back" bindtap="onTapBack">
+    <text class="navbar-back-icon">←</text>
+  </view>
+  <view class="navbar-title">{{title}}</view>
+  <view wx:if="{{showBack}}" class="navbar-placeholder"></view>
+</view>

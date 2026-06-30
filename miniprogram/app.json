@@ -1,0 +1,56 @@
+{
+  "pages": [
+    "pages/login/index",
+    "pages/home/index",
+    "pages/student/list/index",
+    "pages/student/detail/index",
+    "pages/student/import/index",
+    "pages/tag/submit/index",
+    "pages/admin/approvals/index",
+    "pages/admin/settings/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "关中智慧校园",
+    "navigationBarBackgroundColor": "#1a6e3e",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1a6e3e",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/student/list/index",
+        "text": "学生",
+        "iconPath": "images/tab-student.png",
+        "selectedIconPath": "images/tab-student-active.png"
+      },
+      {
+        "pagePath": "pages/tag/submit/index",
+        "text": "标签",
+        "iconPath": "images/tab-tag.png",
+        "selectedIconPath": "images/tab-tag-active.png"
+      },
+      {
+        "pagePath": "pages/admin/approvals/index",
+        "text": "管理",
+        "iconPath": "images/tab-admin.png",
+        "selectedIconPath": "images/tab-admin-active.png"
+      }
+    ]
+  },
+  "useExtendedLib": {
+    "weui": true
+  },
+  "cloud": true,
+  "sitemapLocation": "sitemap.json"
+}

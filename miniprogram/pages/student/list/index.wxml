@@ -1,0 +1,45 @@
+<view class="list-page">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input class="search-input" placeholder="搜索学生姓名" value="{{keyword}}" bindinput="onSearchInput" confirm-type="search" bindconfirm="onSearch" />
+  </view>
+
+  <!-- Tab 切换 -->
+  <view class="tabs">
+    <view class="tab-item {{activeTab === 'all' ? 'tab-active' : ''}}" data-tab="all" bindtap="onTapTab">全部学生</view>
+    <view class="tab-item {{activeTab === 'six' ? 'tab-active' : ''}}" data-tab="six" bindtap="onTapTab">六类生</view>
+    <view class="tab-item {{activeTab === 'four' ? 'tab-active' : ''}}" data-tab="four" bindtap="onTapTab">四特</view>
+    <view class="tab-item {{activeTab === 'out_of_school' ? 'tab-active' : ''}}" data-tab="out_of_school" bindtap="onTapTab">在籍不在校</view>
+  </view>
+
+  <!-- 六类子类别 -->
+  <scroll-view wx:if="{{activeTab === 'six'}}" class="sub-tabs" scroll-x>
+    <text class="sub-tab {{selectedSix === '' ? 'sub-tab-active' : ''}}" data-cat="" bindtap="onSelectSix">全部</text>
+    <text wx:for="{{sixCategories}}" wx:key="*this" class="sub-tab {{selectedSix === item ? 'sub-tab-active' : ''}}" data-cat="{{item}}" bindtap="onSelectSix">{{item}}</text>
+  </scroll-view>
+
+  <!-- 四特子类别 -->
+  <scroll-view wx:if="{{activeTab === 'four'}}" class="sub-tabs" scroll-x>
+    <text class="sub-tab {{selectedFour === '' ? 'sub-tab-active' : ''}}" data-cat="" bindtap="onSelectFour">全部</text>
+    <text wx:for="{{fourCategories}}" wx:key="*this" class="sub-tab {{selectedFour === item ? 'sub-tab-active' : ''}}" data-cat="{{item}}" bindtap="onSelectFour">{{item}}</text>
+  </scroll-view>
+
+  <!-- 在籍不在校子类别 -->
+  <scroll-view wx:if="{{activeTab === 'out_of_school'}}" class="sub-tabs" scroll-x>
+    <text class="sub-tab {{selectedOut === '' ? 'sub-tab-active' : ''}}" data-cat="" bindtap="onSelectOut">全部</text>
+    <text wx:for="{{outCategories}}" wx:key="*this" class="sub-tab {{selectedOut === item ? 'sub-tab-active' : ''}}" data-cat="{{item}}" bindtap="onSelectOut">{{item}}</text>
+  </scroll-view>
+
+  <!-- 学生列表 -->
+  <student-card
+    wx:for="{{studentList}}" wx:key="_id"
+    student="{{item}}"
+    bind:tap="onTapStudent" />
+
+  <!-- 加载状态 -->
+  <view wx:if="{{isLoading}}" class="loading-tip">加载中...</view>
+  <view wx:elif="{{!hasMore && studentList.length > 0}}" class="loading-tip">— 已加载全部 —</view>
+
+  <!-- 空状态 -->
+  <empty-state wx:if="{{!isLoading && studentList.length === 0}}" text="暂无学生数据" icon="📋" />
+</view>

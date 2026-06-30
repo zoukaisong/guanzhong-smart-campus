@@ -1,0 +1,40 @@
+<view class="home-page">
+  <!-- 头部 -->
+  <view class="home-header">
+    <view class="header-top">
+      <text class="school-name">关中智慧校园</text>
+      <text class="user-info">{{user.role_label}} · {{user.name}}</text>
+    </view>
+    <view wx:if="{{user.class_name}}" class="header-class">
+      <text>{{user.class_name}}</text>
+    </view>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-row">
+    <view class="stat-card stat-six">
+      <text class="stat-num">{{Object.keys(stats.six).length || 0}}</text>
+      <text class="stat-label">六类类别</text>
+    </view>
+    <view class="stat-card stat-four">
+      <text class="stat-num">{{Object.keys(stats.four).length || 0}}</text>
+      <text class="stat-label">四特类别</text>
+    </view>
+    <view class="stat-card stat-out">
+      <text class="stat-num">{{Object.keys(stats.outOfSchool).length || 0}}</text>
+      <text class="stat-label">在籍不在校类别</text>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="section-title">快捷入口</view>
+  <view class="entry-grid">
+    <view wx:for="{{quickEntries}}" wx:key="title" class="entry-item" data-url="{{item.url}}" bindtap="onTapEntry">
+      <text class="entry-icon">{{item.icon}}</text>
+      <text class="entry-title">{{item.title}}</text>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <empty-state wx:if="{{!loading && quickEntries.length === 0}}" text="暂无可用功能" />
+</view>

@@ -1,0 +1,57 @@
+<view class="login-page">
+  <!-- 顶栏 -->
+  <view class="header">
+    <text class="header-logo">🏫</text>
+    <text class="header-title">关中智慧校园</text>
+    <text class="header-subtitle">特殊学生群体管理系统</text>
+  </view>
+
+  <!-- Step 1: 微信登录 -->
+  <view wx:if="{{step === 'login'}}" class="login-section">
+    <view class="login-desc">请使用微信一键登录</view>
+    <button class="login-btn" bindtap="onTapWxLogin" loading="{{submitting}}" disabled="{{submitting}}">
+      微信授权登录
+    </button>
+  </view>
+
+  <!-- Step 2: 注册信息 -->
+  <view wx:if="{{step === 'register'}}" class="register-section">
+    <view class="section-title">填写注册信息</view>
+
+    <view class="form-group">
+      <text class="form-label">真实姓名</text>
+      <input class="form-input" placeholder="请输入真实姓名" value="{{name}}" bindinput="onNameInput" maxlength="20" />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">手机号码</text>
+      <input class="form-input" type="number" placeholder="请输入手机号码" value="{{phone}}" bindinput="onPhoneInput" maxlength="11" />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">选择身份</text>
+      <view class="role-grid">
+        <view
+          wx:for="{{roleOptions}}" wx:key="value"
+          class="role-item {{selectedRole === item.value ? 'role-item-active' : ''}}"
+          data-role="{{item.value}}"
+          bindtap="onSelectRole">
+          {{item.label}}
+        </view>
+      </view>
+    </view>
+
+    <button class="submit-btn" bindtap="onTapSubmitRegister" loading="{{submitting}}" disabled="{{submitting}}">
+      提交申请
+    </button>
+    <view class="form-tip">提交后需管理员审核通过方可使用</view>
+  </view>
+
+  <!-- Step 3: 等待审核 -->
+  <view wx:if="{{step === 'pending'}}" class="pending-section">
+    <view class="pending-icon">⏳</view>
+    <view class="pending-title">审核中</view>
+    <view class="pending-desc">您的注册申请已提交，请耐心等待管理员审核</view>
+    <button class="refresh-btn" bindtap="onTapRefreshStatus">刷新状态</button>
+  </view>
+</view>

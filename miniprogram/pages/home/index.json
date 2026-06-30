@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "navbar": "/components/navbar/index",
+    "status-badge": "/components/status-badge/index",
+    "empty-state": "/components/empty-state/index"
+  }
+}

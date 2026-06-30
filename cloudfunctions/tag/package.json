@@ -1,0 +1,9 @@
+{
+  "name": "tag",
+  "version": "1.0.0",
+  "description": "关中智慧校园 - 标签提交与归类云函数",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

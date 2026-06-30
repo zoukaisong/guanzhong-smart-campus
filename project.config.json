@@ -1,0 +1,57 @@
+{
+  "description": "关中智慧校园 - 特殊学生群体管理系统",
+  "packOptions": {
+    "ignore": [
+      { "type": "file", "value": ".gitignore" },
+      { "type": "file", "value": ".DS_Store" },
+      { "type": "file", "value": "*.md" },
+      { "type": "file", "value": "*.pages" },
+      { "type": "folder", "value": "导入数据" },
+      { "type": "folder", "value": "注册信息" },
+      { "type": "folder", "value": "界面参考" }
+    ],
+    "include": []
+  },
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "compileType": "miniprogram",
+  "libVersion": "3.6.0",
+  "appid": "wxa7ad2e6fdad8c59e",
+  "projectname": "guanzhong-smart-campus",
+  "cloudbase": {
+    "envId": "cloudbase-d4g|zztw6048b36b4"
+  },
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "lazyloadPlaceholderEnable": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  }
+}

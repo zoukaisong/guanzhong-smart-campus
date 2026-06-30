@@ -1,0 +1,70 @@
+<view class="detail-page">
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-state">加载中...</view>
+
+  <block wx:elif="{{student}}">
+    <!-- 基本信息 -->
+    <view class="info-card">
+      <view class="student-name">{{student.name}}</view>
+      <view class="info-row">
+        <text class="info-label">班级</text>
+        <text class="info-value">{{student.class_name}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">性别</text>
+        <text class="info-value">{{student.gender === 'male' ? '男' : '女'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">身份证</text>
+        <text class="info-value">{{student.id_card_display}}</text>
+      </view>
+      <view wx:if="{{student.ethnicity}}" class="info-row">
+        <text class="info-label">民族</text>
+        <text class="info-value">{{student.ethnicity}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">家庭住址</text>
+        <text class="info-value">{{student.address || '未填写'}}</text>
+      </view>
+    </view>
+
+    <!-- 家长信息 -->
+    <view class="info-card">
+      <view class="card-title">家长信息</view>
+      <view wx:if="{{student.father_name}}" class="info-row">
+        <text class="info-label">父亲</text>
+        <text class="info-value">{{student.father_name}} · {{student.father_phone}}</text>
+      </view>
+      <view wx:if="{{student.mother_name}}" class="info-row">
+        <text class="info-label">母亲</text>
+        <text class="info-value">{{student.mother_name}} · {{student.mother_phone}}</text>
+      </view>
+    </view>
+
+    <!-- 标签区 -->
+    <view class="info-card">
+      <view class="card-title">标签信息</view>
+      <view wx:if="{{student.tags && student.tags.length > 0}}" class="tags-section">
+        <view wx:for="{{student.tags}}" wx:key="name" class="tag-detail-item">
+          <text class="tag-name">{{item.name}}</text>
+          <view class="tag-categories">
+            <text wx:if="{{item.category_6}}" class="cat-tag cat-six">六类: {{item.category_6}}</text>
+            <text wx:if="{{item.category_4}}" class="cat-tag cat-four">四特: {{item.category_4}}</text>
+            <text wx:if="{{item.category_out}}" class="cat-tag cat-out">在籍不在校: {{item.category_out}}</text>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="no-tags">暂无标签</view>
+    </view>
+
+    <!-- 在籍不在校状态 -->
+    <view wx:if="{{student.out_of_school_status}}" class="info-card out-card">
+      <view class="card-title">在籍不在校状态</view>
+      <view class="out-status-badge">
+        <status-badge type="warning" text="{{student.out_of_school_status === 'tracking' ? '跟踪中' : student.out_of_school_status === 'persuading' ? '劝学中' : student.out_of_school_status === 'visiting' ? '家访中' : student.out_of_school_status === 'returned' ? '已返校' : '已确认'}}" size="md" />
+      </view>
+    </view>
+  </block>
+
+  <empty-state wx:if="{{!loading && !student}}" text="学生不存在" icon="❌" />
+</view>

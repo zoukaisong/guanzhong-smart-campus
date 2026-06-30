@@ -1,0 +1,1 @@
+<text class="badge badge-{{type}} badge-{{size}}">{{text}}</text>

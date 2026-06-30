@@ -1,0 +1,6 @@
+{
+  "name": "common",
+  "version": "1.0.0",
+  "description": "关中智慧校园 - 云函数公共工具",
+  "main": "index.js"
+}
