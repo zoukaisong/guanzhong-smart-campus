@@ -67,4 +67,10 @@
   </block>
 
   <empty-state wx:if="{{!loading && !student}}" text="学生不存在" icon="❌" />
+
+  <!-- 底部操作栏 -->
+  <view wx:if="{{student}}" class="bottom-bar">
+    <button class="bar-btn bar-btn-record" bindtap="onTapAddRecord">添加记录</button>
+    <button class="bar-btn bar-btn-tag" bindtap="onTapAddTag">添加标签</button>
+  </view>
 </view>

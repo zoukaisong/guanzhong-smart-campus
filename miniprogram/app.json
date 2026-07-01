@@ -2,6 +2,7 @@
   "pages": [
     "pages/login/index",
     "pages/home/index",
+    "pages/mine/index",
     "pages/student/list/index",
     "pages/student/detail/index",
     "pages/student/import/index",
@@ -27,12 +28,8 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/student/list/index",
-        "text": "学生"
-      },
-      {
-        "pagePath": "pages/tag/submit/index",
-        "text": "标签"
+        "pagePath": "pages/mine/index",
+        "text": "我的"
       }
     ]
   },

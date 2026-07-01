@@ -29,7 +29,6 @@ Page({
       { title: '六类学生', icon: '📊', url: '/pages/student/list/index?tab=six', roles: '*' },
       { title: '四特学生', icon: '🌟', url: '/pages/student/list/index?tab=four', roles: '*' },
       { title: '在籍不在校', icon: '🏠', url: '/pages/student/list/index?tab=out', roles: '*' },
-      { title: '提交标签', icon: '🏷️', url: '/pages/tag/submit/index', roles: ['admin', 'director', 'vice_director', 'class_teacher'] },
       { title: '用户审核', icon: '✅', url: '/pages/admin/approvals/index', roles: ['admin'] },
       { title: '系统设置', icon: '⚙️', url: '/pages/admin/settings/index', roles: ['admin'] }
     ]
@@ -52,10 +51,6 @@ Page({
 
   onTapEntry(e) {
     const { url } = e.currentTarget.dataset
-    if (url.startsWith('/pages/admin/') || url.startsWith('/pages/tag/')) {
-      wx.navigateTo({ url })
-    } else {
-      wx.switchTab({ url })
-    }
+    wx.navigateTo({ url })
   }
 })

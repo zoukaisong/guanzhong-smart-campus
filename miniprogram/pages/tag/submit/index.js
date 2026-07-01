@@ -20,14 +20,32 @@ Page({
     submitting: false
   },
 
+  onLoad(options) {
+    // 从学生详情页带入 studentId，直接跳到选标签
+    if (options.studentId) {
+      this.loadStudentAndProceed(options.studentId)
+    }
+  },
+
   onShow() {
     if (!canSubmitTag()) {
       wx.showToast({ title: '您没有提交标签的权限', icon: 'none' })
       return
     }
-    if (this.data.step === 'select_tags') {
+    if (this.data.step === 'select_tags' && !this.data.selectedStudent) {
       this.loadTags()
     }
+  },
+
+  async loadStudentAndProceed(studentId) {
+    const res = await studentAPI('detail', { studentId })
+    if (res.code === 0) {
+      this.setData({ selectedStudent: res.data, step: 'select_tags' })
+      this.loadTags()
+    } else {
+      wx.showToast({ title: '学生不存在', icon: 'none' })
+    }
+  },
   },
 
   // ==================== Step 1: 搜索学生 ====================

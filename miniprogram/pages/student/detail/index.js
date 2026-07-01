@@ -34,6 +34,16 @@ Page({
     }
   },
 
+  // ==================== 底部操作 ====================
+  onTapAddRecord() {
+    wx.showToast({ title: '记录功能开发中', icon: 'none' })
+  },
+
+  onTapAddTag() {
+    const studentId = this.data.studentId
+    wx.navigateTo({ url: `/pages/tag/submit/index?studentId=${studentId}` })
+  },
+
   onTapSection(e) {
     const section = e.currentTarget.dataset.section
     this.setData({ activeSection: section })
