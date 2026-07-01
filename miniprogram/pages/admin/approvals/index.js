@@ -18,7 +18,7 @@ Page({
       wx.showToast({ title: '仅管理员可访问', icon: 'none' })
       return
     }
-    this.setData({ isAdmin: true, page: 1, pendingList: [], hasMore: true })
+    this.setData({ isAdmin: true, page: 1, pendingList: [], hasMore: true, loading: false })
     this.loadList()
   },
 
