@@ -13,6 +13,7 @@
       </view>
       <view class="card-body">
         <text class="user-phone">{{item.phone}}</text>
+        <text wx:if="{{item.class_name}}" class="user-class">🏫 {{item.class_name}} · {{item.grade_id === 'grade_7' ? '七年级' : item.grade_id === 'grade_8' ? '八年级' : item.grade_id === 'grade_9' ? '九年级' : ''}}</text>
         <text class="user-time">申请时间: {{item.create_time_display}}</text>
       </view>
       <view class="card-actions">

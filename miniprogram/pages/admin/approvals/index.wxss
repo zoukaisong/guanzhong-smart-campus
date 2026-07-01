@@ -12,6 +12,7 @@
 .user-role { font-size: 24rpx; color: #1a6e3e; background: rgba(26,110,62,0.08); padding: 4rpx 12rpx; border-radius: 8rpx; }
 .card-body { margin-bottom: 20rpx; }
 .user-phone { display: block; font-size: 26rpx; color: #999; }
+.user-class { display: block; font-size: 26rpx; color: #1a6e3e; margin-top: 4rpx; }
 .user-time { display: block; font-size: 24rpx; color: #ccc; margin-top: 4rpx; }
 .card-actions { display: flex; gap: 16rpx; justify-content: flex-end; }
 .btn-approve, .btn-reject {

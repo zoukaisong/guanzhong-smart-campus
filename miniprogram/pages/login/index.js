@@ -89,8 +89,16 @@ Page({
     this.setData({ submitting: false })
 
     if (res.code === 0) {
-      wx.showToast({ title: res.message, icon: 'success' })
-      this.setData({ step: 'pending' })
+      const { classAutoAssigned, staffWarning, staffMatched } = res.data || {}
+      let msg = res.message
+      if (classAutoAssigned) msg = '已自动匹配班级，' + msg
+      if (staffWarning) {
+        wx.showToast({ title: staffWarning, icon: 'none', duration: 3000 })
+        setTimeout(() => this.setData({ step: 'pending' }), 1500)
+      } else {
+        wx.showToast({ title: msg, icon: 'success' })
+        this.setData({ step: 'pending' })
+      }
     }
   },
 

@@ -3,6 +3,7 @@ const cloud = require('wx-server-sdk')
 cloud.init({ env: 'cloudbase-d4glzztw6048b36b4' })
 const db = cloud.database()
 const _ = db.command
+const { matchStaff, isClassTeacherPosition } = require('./staff')
 
 // ========== 内置工具函数 ==========
 function success(data = null, message = 'ok') {
@@ -77,15 +78,47 @@ async function handleRegister(openid, data) {
   if (!allowedRoles.includes(role)) return fail(400, '无效的角色类型')
   if (role === 'admin') return fail(403, '管理员不可自行注册')
 
+  // ====== 教职工名单匹配 ======
+  const staff = matchStaff(phone)
+  let autoClass = { class_id: '', class_name: '', grade_id: '' }
+  let staffWarning = null
+
+  if (staff) {
+    // 手机号在教职工名单中
+    if (role === 'class_teacher' && isClassTeacherPosition(staff.position)) {
+      // 班主任自动绑定班级
+      autoClass = {
+        class_id: staff.class_id,
+        class_name: staff.class_name,
+        grade_id: staff.grade_id
+      }
+      console.log('[auth] 班主任自动匹配:', name, '→', staff.class_name, 'phone:', phone)
+    } else if (role === 'class_teacher' && !isClassTeacherPosition(staff.position)) {
+      // 手机号在名单里但不是班主任职位
+      staffWarning = `该手机号对应职位为「${staff.position}」，非班主任`
+    }
+    // 如果姓名不一致，提醒
+    if (name.trim() !== staff.name) {
+      staffWarning = staffWarning
+        ? staffWarning + `；且姓名与名单不一致（名单: ${staff.name}）`
+        : `姓名与教职工名单不一致（名单: ${staff.name}）`
+    }
+  }
+  // 不在名单中也允许注册（可能是新教师）
+
   const existing = await db.collection('users').where({ openid, is_deleted: _.neq(true) }).get()
   if (existing.data.length > 0) {
     const u = existing.data[0]
     if (u.status === 'approved') return fail(422, '您已注册并通过审核')
     if (u.status === 'pending') return fail(422, '您的注册申请正在审核中')
     await db.collection('users').doc(u._id).update({
-      data: { name, phone, role, role_label: getRoleLabel(role), org_path: getOrgPath(role), status: 'pending', update_time: Date.now() }
+      data: {
+        name, phone, role, role_label: getRoleLabel(role), org_path: getOrgPath(role),
+        class_id: autoClass.class_id, class_name: autoClass.class_name, grade_id: autoClass.grade_id,
+        status: 'pending', update_time: Date.now()
+      }
     })
-    return success({ userId: u._id }, '注册申请已重新提交')
+    return success({ userId: u._id, staffMatched: !!staff, classAutoAssigned: !!autoClass.class_id, staffWarning })
   }
 
   const userId = generateId('user')
@@ -93,11 +126,17 @@ async function handleRegister(openid, data) {
     data: {
       _id: userId, openid, name, phone, role,
       role_label: getRoleLabel(role), org_path: getOrgPath(role),
-      class_id: '', class_name: '', grade_id: '',
+      class_id: autoClass.class_id, class_name: autoClass.class_name, grade_id: autoClass.grade_id,
       status: 'pending', create_time: Date.now(), update_time: Date.now(), is_deleted: false
     }
   })
-  return success({ userId }, '注册申请已提交，请等待管理员审核')
+
+  return success({
+    userId,
+    staffMatched: !!staff,
+    classAutoAssigned: !!autoClass.class_id,
+    staffWarning
+  }, staffWarning || '注册申请已提交，请等待管理员审核')
 }
 
 // ==================== 管理员审核 ====================
