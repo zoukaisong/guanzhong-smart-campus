@@ -1,5 +1,5 @@
 {
-  "description": "关中智慧校园 - 学生群体管理系统",
+  "description": "关中智慧校园 - 学生管理系统",
   "packOptions": {
     "ignore": [
       {
@@ -40,7 +40,7 @@
   "appid": "wxa7ad2e6fdad8c59e",
   "projectname": "guanzhong-smart-campus",
   "cloudbase": {
-    "envId": "cloudbase-d4g|zztw6048b36b4"
+    "envId": "cloudbase-d4glzztw6048b36b4"
   },
   "setting": {
     "urlCheck": true,

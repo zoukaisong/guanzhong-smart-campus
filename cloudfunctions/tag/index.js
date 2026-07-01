@@ -1,6 +1,6 @@
 // cloudfunctions/tag/index.js — 标签提交与自动归类（核心引擎）
 const cloud = require('wx-server-sdk')
-cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
+cloud.init({ env: 'cloudbase-d4glzztw6048b36b4' })
 const db = cloud.database()
 const _ = db.command
 

@@ -10,7 +10,7 @@ App({
     }
 
     wx.cloud.init({
-      env: 'cloudbase-d4g|zztw6048b36b4',
+      env: 'cloudbase-d4glzztw6048b36b4',
       traceUser: true
     })
 

@@ -3,7 +3,7 @@
   <view class="header">
     <text class="header-logo">🏫</text>
     <text class="header-title">关中智慧校园</text>
-    <text class="header-subtitle">特殊学生群体管理系统</text>
+    <text class="header-subtitle">学生管理系统</text>
   </view>
 
   <!-- Step 1: 微信登录 -->
