@@ -24,27 +24,19 @@
     "list": [
       {
         "pagePath": "pages/home/index",
-        "text": "首页",
-        "iconPath": "images/tab-home.png",
-        "selectedIconPath": "images/tab-home-active.png"
+        "text": "首页"
       },
       {
         "pagePath": "pages/student/list/index",
-        "text": "学生",
-        "iconPath": "images/tab-student.png",
-        "selectedIconPath": "images/tab-student-active.png"
+        "text": "学生"
       },
       {
         "pagePath": "pages/tag/submit/index",
-        "text": "标签",
-        "iconPath": "images/tab-tag.png",
-        "selectedIconPath": "images/tab-tag-active.png"
+        "text": "标签"
       },
       {
         "pagePath": "pages/admin/approvals/index",
-        "text": "管理",
-        "iconPath": "images/tab-admin.png",
-        "selectedIconPath": "images/tab-admin-active.png"
+        "text": "管理"
       }
     ]
   },
