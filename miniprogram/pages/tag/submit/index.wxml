@@ -25,7 +25,8 @@
       <view class="tag-grid">
         <view
           wx:for="{{item.items}}" wx:key="name"
-          class="tag-item {{selectedTags.indexOf(item.name) > -1 ? 'tag-item-selected' : ''}}"
+          class="tag-item"
+          style="background: {{selectedTags.indexOf(item.name) > -1 ? '#1a6e3e' : '#f5f5f5'}}; color: {{selectedTags.indexOf(item.name) > -1 ? '#fff' : '#666'}}; font-weight: {{selectedTags.indexOf(item.name) > -1 ? '500' : '400'}}"
           data-name="{{item.name}}"
           bindtap="onToggleTag">
           {{item.name}}
