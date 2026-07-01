@@ -46,7 +46,6 @@ Page({
       wx.showToast({ title: '学生不存在', icon: 'none' })
     }
   },
-  },
 
   // ==================== Step 1: 搜索学生 ====================
   onSearchInput(e) {
