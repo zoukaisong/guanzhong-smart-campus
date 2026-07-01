@@ -9,7 +9,7 @@ Component({
   methods: {
     onTap() {
       if (this.properties.tapable) {
-        this.triggerEvent('tap', { student: this.properties.student })
+        this.triggerEvent('select', { student: this.properties.student })
       }
     }
   }

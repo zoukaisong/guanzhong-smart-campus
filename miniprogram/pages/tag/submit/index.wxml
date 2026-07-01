@@ -9,7 +9,7 @@
     <student-card
       wx:for="{{studentList}}" wx:key="_id"
       student="{{item}}"
-      bind:tap="onSelectStudent" />
+      bind:select="onSelectStudent" />
     <empty-state wx:if="{{studentList.length === 0}}" text="输入姓名搜索学生" icon="🔍" />
   </view>
 

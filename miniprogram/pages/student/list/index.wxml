@@ -34,7 +34,7 @@
   <student-card
     wx:for="{{studentList}}" wx:key="_id"
     student="{{item}}"
-    bind:tap="onTapStudent" />
+    bind:select="onTapStudent" />
 
   <!-- 加载状态 -->
   <view wx:if="{{isLoading}}" class="loading-tip">加载中...</view>
