@@ -7,14 +7,22 @@ miniprogram/node_modules/
 # Cloud functions
 cloudfunctions/*/node_modules/
 
+# Root node_modules (import scripts)
+node_modules/
+package.json
+package-lock.json
+
 # WeChat DevTools
 project.private.config.json
+
+# Import data (privacy)
+students_import.json
+grades_import.json
+classes_import.json
+config_tags_import.json
+config_semester_import.json
 
 # Temp files
 .~*
 ~$*
-
-# Student data (privacy)
-students_import.json
-*.xlsx
-!导入数据/.gitkeep
+临时文件.txt
