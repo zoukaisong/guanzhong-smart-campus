@@ -4,25 +4,18 @@ const { canSubmitTag } = require('../../../utils/auth')
 
 Page({
   data: {
-    // 步骤: select_student | select_tags | confirm
     step: 'select_student',
-
-    // 学生搜索
     studentKeyword: '',
     studentList: [],
     selectedStudent: null,
-
-    // 标签列表（从 config_tags 加载）
     tagGroups: [],
     selectedTags: [],
     tagDescription: '',
-    tagPhotos: [],     // 补充描述图片（最多3张）
-
+    tagPhotos: [],
     submitting: false
   },
 
   onLoad(options) {
-    // 从学生详情页带入 studentId，直接跳到选标签
     if (options.studentId) {
       this.loadStudentAndProceed(options.studentId)
     }
@@ -39,7 +32,7 @@ Page({
   },
 
   async loadStudentAndProceed(studentId) {
-    const res = await studentAPI('detail', { studentId })
+    var res = await studentAPI('detail', { studentId: studentId })
     if (res.code === 0) {
       this.setData({ selectedStudent: res.data, step: 'select_tags' })
       this.loadTags()
@@ -48,48 +41,47 @@ Page({
     }
   },
 
-  // ==================== Step 1: 搜索学生 ====================
-  onSearchInput(e) {
+  onSearchInput: function (e) {
     this.setData({ studentKeyword: e.detail.value })
   },
 
   async onSearchStudent() {
-    const kw = this.data.studentKeyword.trim()
+    var kw = this.data.studentKeyword.trim()
     if (!kw) return
 
-    const res = await studentAPI('list', { keyword: kw, page: 1, pageSize: 20 })
+    var res = await studentAPI('list', { keyword: kw, page: 1, pageSize: 20 })
     if (res.code === 0) {
       this.setData({ studentList: res.data.list })
     }
   },
 
-  onSelectStudent(e) {
-    const student = e.detail.student
+  onSelectStudent: function (e) {
+    var student = e.detail.student
     this.setData({ selectedStudent: student, step: 'select_tags' })
     this.loadTags()
   },
 
-  // ==================== Step 2: 选择标签 ====================
   async loadTags() {
-    const res = await tagAPI('configList', {}, { silent: true })
+    var res = await tagAPI('configList', {}, { silent: true })
     if (res.code === 0) {
-      // 按 group 分组
-      const tags = res.data.filter(t => t.is_enabled)
-      const groups = {}
-      tags.forEach(t => {
-        const g = t.group || '其他'
+      var tags = res.data.filter(function (t) { return t.is_enabled })
+      var groups = {}
+      tags.forEach(function (t) {
+        var g = t.group || '其他'
         if (!groups[g]) groups[g] = []
         groups[g].push(t)
       })
-      const tagGroups = Object.entries(groups).map(([group, items]) => ({ group, items }))
-      this.setData({ tagGroups })
+      var tagGroups = Object.entries(groups).map(function (entry) {
+        return { group: entry[0], items: entry[1] }
+      })
+      this.setData({ tagGroups: tagGroups })
     }
   },
 
-  onToggleTag(e) {
-    const { name } = e.currentTarget.dataset
-    let selected = [...this.data.selectedTags]
-    const idx = selected.indexOf(name)
+  onToggleTag: function (e) {
+    var name = e.currentTarget.dataset.name
+    var selected = this.data.selectedTags.concat()
+    var idx = selected.indexOf(name)
     if (idx > -1) {
       selected.splice(idx, 1)
     } else {
@@ -98,36 +90,35 @@ Page({
     this.setData({ selectedTags: selected })
   },
 
-  onDescInput(e) {
+  onDescInput: function (e) {
     this.setData({ tagDescription: e.detail.value })
   },
 
-  // ==================== 图片上传 ====================
-  onAddPhoto() {
-    const remaining = 3 - this.data.tagPhotos.length
+  onAddPhoto: function () {
+    var remaining = 3 - this.data.tagPhotos.length
     if (remaining <= 0) return
 
+    var that = this
     wx.chooseImage({
       count: remaining,
       sizeType: ['compressed'],
       sourceType: ['album', 'camera'],
-      success: (res) => {
-        const tempPaths = res.tempFilePaths
-        this.uploadPhotos(tempPaths)
+      success: function (res) {
+        that.uploadPhotos(res.tempFilePaths)
       }
     })
   },
 
   async uploadPhotos(tempPaths) {
     wx.showLoading({ title: '上传中...', mask: true })
-    const uploaded = []
+    var uploaded = []
 
-    for (const path of tempPaths) {
+    for (var i = 0; i < tempPaths.length; i++) {
       try {
-        const cloudPath = `tag_photos/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.jpg`
-        const result = await wx.cloud.uploadFile({
-          cloudPath,
-          filePath: path
+        var cloudPath = 'tag_photos/' + Date.now() + '_' + Math.random().toString(36).slice(2, 8) + '.jpg'
+        var result = await wx.cloud.uploadFile({
+          cloudPath: cloudPath,
+          filePath: tempPaths[i]
         })
         uploaded.push(result.fileID)
       } catch (err) {
@@ -136,26 +127,24 @@ Page({
     }
 
     wx.hideLoading()
-    this.setData({ tagPhotos: [...this.data.tagPhotos, ...uploaded] })
+    this.setData({ tagPhotos: this.data.tagPhotos.concat(uploaded) })
     if (uploaded.length < tempPaths.length) {
       wx.showToast({ title: '部分图片上传失败', icon: 'none' })
     }
   },
 
-  onDeletePhoto(e) {
-    const { index } = e.currentTarget.dataset
-    const photos = [...this.data.tagPhotos]
+  onDeletePhoto: function (e) {
+    var index = e.currentTarget.dataset.index
+    var photos = this.data.tagPhotos.concat()
     photos.splice(index, 1)
     this.setData({ tagPhotos: photos })
   },
 
-  // ==================== Step 3: 确认提交 ====================
-  onConfirmSubmit() {
+  onConfirmSubmit: function () {
     if (this.data.selectedTags.length === 0) {
       wx.showToast({ title: '请至少选择一个标签', icon: 'none' })
       return
     }
-
     this.setData({ step: 'confirm' })
   },
 
@@ -163,7 +152,7 @@ Page({
     if (this.data.submitting) return
     this.setData({ submitting: true })
 
-    const res = await tagAPI('submit', {
+    var res = await tagAPI('submit', {
       studentId: this.data.selectedStudent._id,
       tagNames: this.data.selectedTags,
       description: this.data.tagDescription.trim(),
@@ -173,29 +162,32 @@ Page({
     this.setData({ submitting: false })
 
     if (res.code === 0) {
-      const { addedTags, skippedTags, classification } = res.data
-      let msg = `成功添加 ${addedTags.length} 个标签`
+      var addedTags = res.data.addedTags
+      var skippedTags = res.data.skippedTags
+      var classification = res.data.classification
+
+      var msg = '成功添加 ' + addedTags.length + ' 个标签'
       if (skippedTags && skippedTags.length > 0) {
-        msg += `，${skippedTags.length} 个已存在`
+        msg += '，' + skippedTags.length + ' 个已存在'
       }
 
-      // 显示归类结果
-      const parts = []
-      if (classification.six.length > 0) parts.push(`六类: ${classification.six.join('、')}`)
-      if (classification.four.length > 0) parts.push(`四特: ${classification.four.join('、')}`)
-      if (classification.out_of_school.length > 0) parts.push(`在籍不在校: ${classification.out_of_school.join('、')}`)
+      var parts = []
+      if (classification.six.length > 0) parts.push('六类: ' + classification.six.join('、'))
+      if (classification.four.length > 0) parts.push('四特: ' + classification.four.join('、'))
+      if (classification.out_of_school.length > 0) parts.push('在籍不在校: ' + classification.out_of_school.join('、'))
 
+      var that = this
       wx.showModal({
         title: '提交成功',
-        content: `${msg}\n\n自动归类:\n${parts.join('\n')}`,
+        content: msg + '\n\n自动归类:\n' + parts.join('\n'),
         showCancel: false,
-        success: () => {
-          // 重置
-          this.setData({
+        success: function () {
+          that.setData({
             step: 'select_student',
             selectedStudent: null,
             selectedTags: [],
             tagDescription: '',
+            tagPhotos: [],
             studentKeyword: '',
             studentList: []
           })
@@ -204,11 +196,19 @@ Page({
     }
   },
 
-  onBackToStudent() {
-    this.setData({ step: 'select_student', selectedStudent: null, selectedTags: [], tagDescription: '', tagPhotos: [] })
+  onBackToStudent: function () {
+    this.setData({
+      step: 'select_student',
+      selectedStudent: null,
+      selectedTags: [],
+      tagDescription: '',
+      tagPhotos: [],
+      studentKeyword: '',
+      studentList: []
+    })
   },
 
-  onBackToTags() {
+  onBackToTags: function () {
     this.setData({ step: 'select_tags' })
   }
 })
