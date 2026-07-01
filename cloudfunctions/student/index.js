@@ -201,8 +201,14 @@ async function handleListByCategory(data, user) {
   if (gradeId) where.grade_id = gradeId
 
   switch (system) {
-    case 'six': where['tags.category_6'] = category; break
-    case 'four': where['tags.category_4'] = category; break
+    case 'six':
+      if (category) where['tags.category_6'] = category
+      else where['tags.category_6'] = _.exists(true)  // 只要有六类标签
+      break
+    case 'four':
+      if (category) where['tags.category_4'] = category
+      else where['tags.category_4'] = _.exists(true)  // 只要有四特标签
+      break
     case 'out_of_school':
       if (category) where['tags.category_out'] = category
       else where._ = _.or([{ 'tags.category_out': _.exists(true) }, { out_of_school_status: _.neq(null) }])
