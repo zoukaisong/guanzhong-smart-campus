@@ -1,23 +1,22 @@
-// pages/student/list/index.js — 学生列表（含六类/四特/在籍不在校筛选）
-const { studentAPI } = require('../../../utils/request')
-const { SIX_CATEGORIES, FOUR_SPECIAL_CATEGORIES, OUT_OF_SCHOOL_CATEGORIES } = require('../../../utils/constants')
-const { isLoggedIn } = require('../../../utils/auth')
+// pages/student/list/index.js — 学生列表
+var req = require('../../../utils/request')
+var studentAPI = req.studentAPI
+var constants = require('../../../utils/constants')
+var SIX_CATEGORIES = constants.SIX_CATEGORIES
+var FOUR_SPECIAL_CATEGORIES = constants.FOUR_SPECIAL_CATEGORIES
+var OUT_OF_SCHOOL_CATEGORIES = constants.OUT_OF_SCHOOL_CATEGORIES
+var auth = require('../../../utils/auth')
+var isLoggedIn = auth.isLoggedIn
 
 Page({
   data: {
-    // 当前视图
-    activeTab: 'all',       // all | six | four | out_of_school
-    // 六类子类别
+    activeTab: 'all',
     sixCategories: Object.values(SIX_CATEGORIES),
     selectedSix: '',
-    // 四特子类别
     fourCategories: Object.values(FOUR_SPECIAL_CATEGORIES),
     selectedFour: '',
-    // 在籍不在校子类别
     outCategories: Object.values(OUT_OF_SCHOOL_CATEGORIES),
     selectedOut: '',
-
-    // 列表
     studentList: [],
     total: 0,
     page: 1,
@@ -27,7 +26,7 @@ Page({
     keyword: ''
   },
 
-  onShow() {
+  onShow: function () {
     if (!isLoggedIn()) {
       wx.redirectTo({ url: '/pages/login/index' })
       return
@@ -36,88 +35,87 @@ Page({
     this.loadStudents()
   },
 
-  onPullDownRefresh() {
+  onPullDownRefresh: function () {
     this.setData({ page: 1, studentList: [], hasMore: true })
-    this.loadStudents().finally(() => wx.stopPullDownRefresh())
+    var that = this
+    this.loadStudents().finally(function () { wx.stopPullDownRefresh() })
   },
 
-  onReachBottom() {
+  onReachBottom: function () {
     this.loadStudents()
   },
 
-  // ==================== Tab 切换 ====================
-  onTapTab(e) {
-    const tab = e.currentTarget.dataset.tab
+  onTapTab: function (e) {
+    var tab = e.currentTarget.dataset.tab
     this.setData({
-      activeTab: tab,
-      page: 1,
-      studentList: [],
-      hasMore: true,
-      selectedSix: '',
-      selectedFour: '',
-      selectedOut: ''
+      activeTab: tab, page: 1, studentList: [], hasMore: true,
+      selectedSix: '', selectedFour: '', selectedOut: ''
     })
     this.loadStudents()
   },
 
-  onSelectSix(e) {
+  onSelectSix: function (e) {
     this.setData({ selectedSix: e.currentTarget.dataset.cat, page: 1, studentList: [], hasMore: true })
     this.loadStudents()
   },
-  onSelectFour(e) {
+  onSelectFour: function (e) {
     this.setData({ selectedFour: e.currentTarget.dataset.cat, page: 1, studentList: [], hasMore: true })
     this.loadStudents()
   },
-  onSelectOut(e) {
+  onSelectOut: function (e) {
     this.setData({ selectedOut: e.currentTarget.dataset.cat, page: 1, studentList: [], hasMore: true })
     this.loadStudents()
   },
 
-  // ==================== 搜索 ====================
-  onSearchInput(e) {
+  onSearchInput: function (e) {
     this.setData({ keyword: e.detail.value })
   },
-  onSearch() {
+  onSearch: function () {
     this.setData({ page: 1, studentList: [], hasMore: true })
     this.loadStudents()
   },
 
-  // ==================== 加载数据 ====================
-  async loadStudents() {
+  loadStudents: async function () {
     if (this.data.isLoading || !this.data.hasMore) return
     this.setData({ isLoading: true })
 
-    let res
-    const { activeTab, page, pageSize, keyword, selectedSix, selectedFour, selectedOut } = this.data
+    var res
+    var activeTab = this.data.activeTab
+    var page = this.data.page
+    var pageSize = this.data.pageSize
+    var keyword = this.data.keyword
+    var selectedSix = this.data.selectedSix
+    var selectedFour = this.data.selectedFour
+    var selectedOut = this.data.selectedOut
 
     try {
       if (activeTab === 'all') {
-        res = await studentAPI('list', { page, pageSize, keyword: keyword || undefined })
+        res = await studentAPI('list', { page: page, pageSize: pageSize, keyword: keyword || undefined })
       } else if (activeTab === 'six') {
         res = await studentAPI('listByCategory', {
-          page, pageSize, system: 'six',
-          category: selectedSix || undefined,
-          keyword: keyword || undefined
+          page: page, pageSize: pageSize, system: 'six',
+          category: selectedSix || undefined, keyword: keyword || undefined
         })
       } else if (activeTab === 'four') {
         res = await studentAPI('listByCategory', {
-          page, pageSize, system: 'four',
-          category: selectedFour || undefined,
-          keyword: keyword || undefined
+          page: page, pageSize: pageSize, system: 'four',
+          category: selectedFour || undefined, keyword: keyword || undefined
         })
       } else if (activeTab === 'out_of_school') {
         res = await studentAPI('listOutOfSchool', {
-          page, pageSize,
-          category: selectedOut || undefined,
-          keyword: keyword || undefined
+          page: page, pageSize: pageSize,
+          category: selectedOut || undefined, keyword: keyword || undefined
         })
       }
 
       if (res && res.code === 0) {
-        const { list, total, page: curPage, pageSize: ps } = res.data
+        var list = res.data.list
+        var total = res.data.total
+        var curPage = res.data.page
+        var ps = res.data.pageSize
         this.setData({
           studentList: this.data.studentList.concat(list),
-          total,
+          total: total,
           page: curPage + 1,
           hasMore: curPage * ps < total
         })
@@ -127,9 +125,8 @@ Page({
     }
   },
 
-  // ==================== 点击学生 ====================
-  onTapStudent(e) {
-    const { student } = e.detail
-    wx.navigateTo({ url: `/pages/student/detail/index?studentId=${student._id}` })
+  onTapStudent: function (e) {
+    var student = e.detail.student
+    wx.navigateTo({ url: '/pages/student/detail/index?studentId=' + student._id })
   }
 })
