@@ -136,6 +136,7 @@ async function handlePendingList(openid, data) {
   const { page = 1, pageSize = 20 } = data
 
   const total = await db.collection('users').where({ status: 'pending', is_deleted: _.neq(true) }).count()
+  console.log('[auth] pendingList: total=' + total.total + ', admin=' + admin.name)
   const list = await db.collection('users').where({ status: 'pending', is_deleted: _.neq(true) })
     .orderBy('create_time', 'desc').skip((page - 1) * pageSize).limit(pageSize).get()
 
