@@ -33,10 +33,6 @@
       {
         "pagePath": "pages/tag/submit/index",
         "text": "标签"
-      },
-      {
-        "pagePath": "pages/admin/approvals/index",
-        "text": "管理"
       }
     ]
   },
