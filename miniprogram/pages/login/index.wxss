@@ -9,7 +9,7 @@
   align-items: center;
   padding: 60rpx 0 40rpx;
 }
-.header-logo { font-size: 80rpx; margin-bottom: 20rpx; }
+.header-logo { width: 120rpx; height: 120rpx; margin-bottom: 20rpx; }
 .header-title { font-size: 44rpx; font-weight: 700; color: #fff; margin-bottom: 12rpx; }
 .header-subtitle { font-size: 26rpx; color: rgba(255,255,255,0.8); }
 

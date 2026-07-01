@@ -1,7 +1,7 @@
 <view class="login-page">
   <!-- 顶栏 -->
   <view class="header">
-    <text class="header-logo">🏫</text>
+    <image class="header-logo" src="/images/logo.png" mode="aspectFit" />
     <text class="header-title">关中智慧校园</text>
     <text class="header-subtitle">学生管理系统</text>
   </view>

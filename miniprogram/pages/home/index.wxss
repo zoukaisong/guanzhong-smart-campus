@@ -11,6 +11,15 @@
   justify-content: space-between;
   align-items: center;
 }
+.header-left {
+  display: flex;
+  align-items: center;
+}
+.header-logo-sm {
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 16rpx;
+}
 .school-name { font-size: 40rpx; font-weight: 700; }
 .user-info { font-size: 26rpx; opacity: 0.85; }
 .header-class { margin-top: 12rpx; font-size: 28rpx; opacity: 0.8; }

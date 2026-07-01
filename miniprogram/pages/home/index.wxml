@@ -2,7 +2,10 @@
   <!-- 头部 -->
   <view class="home-header">
     <view class="header-top">
-      <text class="school-name">关中智慧校园</text>
+      <view class="header-left">
+        <image class="header-logo-sm" src="/images/logo.png" mode="aspectFit" />
+        <text class="school-name">关中智慧校园</text>
+      </view>
       <text class="user-info">{{user.role_label}} · {{user.name}}</text>
     </view>
     <view wx:if="{{user.class_name}}" class="header-class">
