@@ -17,16 +17,16 @@
 .tag-grid { display: flex; flex-wrap: wrap; gap: 12rpx; }
 .tag-item {
   padding: 14rpx 28rpx;
-  background: #fff;
+  background: #f5f5f5;
   border-radius: 20rpx;
   font-size: 26rpx;
   color: #666;
-  border: 2rpx solid #e5e5e5;
+  border: 2rpx solid transparent;
 }
 .tag-item-selected {
-  background: rgba(26,110,62,0.08);
-  color: #1a6e3e;
-  border-color: #1a6e3e;
+  background: #1a6e3e;
+  color: #fff;
+  font-weight: 500;
 }
 
 /* ---- Description ---- */
@@ -34,13 +34,60 @@
 .desc-label { font-size: 28rpx; font-weight: 600; color: #666; display: block; margin-bottom: 12rpx; }
 .desc-input {
   width: 100%;
-  height: 200rpx;
+  height: 160rpx;
   background: #fff;
   border-radius: 12rpx;
   padding: 20rpx;
   font-size: 28rpx;
   box-sizing: border-box;
+  margin-bottom: 16rpx;
 }
+
+/* ---- Photo Upload ---- */
+.photo-upload-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+.photo-item {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  position: relative;
+  overflow: hidden;
+}
+.photo-img {
+  width: 100%;
+  height: 100%;
+}
+.photo-delete {
+  position: absolute;
+  top: -4rpx;
+  right: -4rpx;
+  width: 40rpx;
+  height: 40rpx;
+  background: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 28rpx;
+}
+.photo-add-btn {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  background: #f5f5f5;
+  border: 2rpx dashed #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #999;
+}
+.photo-add-icon { font-size: 48rpx; margin-bottom: 4rpx; }
 
 /* ---- Buttons ---- */
 .confirm-btn, .submit-btn {

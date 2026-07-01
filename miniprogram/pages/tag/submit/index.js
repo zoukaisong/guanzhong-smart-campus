@@ -16,6 +16,7 @@ Page({
     tagGroups: [],
     selectedTags: [],
     tagDescription: '',
+    tagPhotos: [],     // 补充描述图片（最多3张）
 
     submitting: false
   },
@@ -101,6 +102,53 @@ Page({
     this.setData({ tagDescription: e.detail.value })
   },
 
+  // ==================== 图片上传 ====================
+  onAddPhoto() {
+    const remaining = 3 - this.data.tagPhotos.length
+    if (remaining <= 0) return
+
+    wx.chooseImage({
+      count: remaining,
+      sizeType: ['compressed'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        const tempPaths = res.tempFilePaths
+        this.uploadPhotos(tempPaths)
+      }
+    })
+  },
+
+  async uploadPhotos(tempPaths) {
+    wx.showLoading({ title: '上传中...', mask: true })
+    const uploaded = []
+
+    for (const path of tempPaths) {
+      try {
+        const cloudPath = `tag_photos/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.jpg`
+        const result = await wx.cloud.uploadFile({
+          cloudPath,
+          filePath: path
+        })
+        uploaded.push(result.fileID)
+      } catch (err) {
+        console.error('图片上传失败:', err)
+      }
+    }
+
+    wx.hideLoading()
+    this.setData({ tagPhotos: [...this.data.tagPhotos, ...uploaded] })
+    if (uploaded.length < tempPaths.length) {
+      wx.showToast({ title: '部分图片上传失败', icon: 'none' })
+    }
+  },
+
+  onDeletePhoto(e) {
+    const { index } = e.currentTarget.dataset
+    const photos = [...this.data.tagPhotos]
+    photos.splice(index, 1)
+    this.setData({ tagPhotos: photos })
+  },
+
   // ==================== Step 3: 确认提交 ====================
   onConfirmSubmit() {
     if (this.data.selectedTags.length === 0) {
@@ -118,7 +166,8 @@ Page({
     const res = await tagAPI('submit', {
       studentId: this.data.selectedStudent._id,
       tagNames: this.data.selectedTags,
-      description: this.data.tagDescription.trim()
+      description: this.data.tagDescription.trim(),
+      photos: this.data.tagPhotos
     }, { showLoading: true })
 
     this.setData({ submitting: false })
@@ -156,7 +205,7 @@ Page({
   },
 
   onBackToStudent() {
-    this.setData({ step: 'select_student', selectedStudent: null, selectedTags: [], tagDescription: '' })
+    this.setData({ step: 'select_student', selectedStudent: null, selectedTags: [], tagDescription: '', tagPhotos: [] })
   },
 
   onBackToTags() {

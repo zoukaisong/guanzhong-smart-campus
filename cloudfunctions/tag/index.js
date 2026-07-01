@@ -103,7 +103,7 @@ async function handleSubmit(data, user) {
   const roleErr = requireRole(user, ['admin', 'director', 'vice_director', 'class_teacher'])
   if (roleErr) return roleErr
 
-  const { studentId, tagNames, description } = data
+  const { studentId, tagNames, description, photos } = data
   if (!studentId) return fail(400, '请选择学生')
   if (!tagNames || !Array.isArray(tagNames) || tagNames.length === 0) return fail(400, '请至少选择一个标签')
 
@@ -160,7 +160,7 @@ async function handleSubmit(data, user) {
   for (const tagName of newConfigs.map(c => c.name)) {
     const recordId = generateId('tag')
     await db.collection('student_tags').add({
-      data: { _id: recordId, student_id: studentId, student_name: student.name, class_id: student.class_id, tag_name: tagName, description: description || '', submitter_id: user._id, submitter_name: user.name, submitter_role: user.role, create_time: now, update_time: now, is_deleted: false }
+      data: { _id: recordId, student_id: studentId, student_name: student.name, class_id: student.class_id, tag_name: tagName, description: description || '', photos: photos || [], submitter_id: user._id, submitter_name: user.name, submitter_role: user.role, create_time: now, update_time: now, is_deleted: false }
     })
   }
 

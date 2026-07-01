@@ -36,6 +36,16 @@
     <view class="desc-section">
       <text class="desc-label">补充描述（可选）</text>
       <textarea class="desc-input" placeholder="请补充具体情况说明..." value="{{tagDescription}}" bindinput="onDescInput" maxlength="500" />
+      <view class="photo-upload-area">
+        <view wx:for="{{tagPhotos}}" wx:key="*this" class="photo-item">
+          <image class="photo-img" src="{{item}}" mode="aspectFill" />
+          <view class="photo-delete" data-index="{{index}}" bindtap="onDeletePhoto">✕</view>
+        </view>
+        <view wx:if="{{tagPhotos.length < 3}}" class="photo-add-btn" bindtap="onAddPhoto">
+          <text class="photo-add-icon">+</text>
+          <text>上传图片</text>
+        </view>
+      </view>
     </view>
 
     <button class="confirm-btn" bindtap="onConfirmSubmit" disabled="{{selectedTags.length === 0}}">
