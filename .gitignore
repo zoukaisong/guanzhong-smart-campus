@@ -7,6 +7,9 @@ miniprogram/node_modules/
 # Cloud functions
 cloudfunctions/*/node_modules/
 
+# WeChat DevTools
+project.private.config.json
+
 # Temp files
 .~*
 ~$*
