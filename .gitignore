@@ -13,3 +13,8 @@ project.private.config.json
 # Temp files
 .~*
 ~$*
+
+# Student data (privacy)
+students_import.json
+*.xlsx
+!导入数据/.gitkeep
