@@ -1,6 +1,7 @@
 // pages/admin/approvals/index.js — 用户审核（管理员）
 const { authAPI } = require('../../../utils/request')
 const { isAdmin } = require('../../../utils/auth')
+const { formatDate } = require('../../../utils/date')
 
 Page({
   data: {
@@ -34,8 +35,12 @@ Page({
 
     if (res.code === 0) {
       const { list, total, page, pageSize } = res.data
+      const formattedList = list.map(item => ({
+        ...item,
+        create_time_display: formatDate(item.create_time, 'datetime')
+      }))
       this.setData({
-        pendingList: this.data.pendingList.concat(list),
+        pendingList: this.data.pendingList.concat(formattedList),
         total,
         page: page + 1,
         hasMore: page * pageSize < total,

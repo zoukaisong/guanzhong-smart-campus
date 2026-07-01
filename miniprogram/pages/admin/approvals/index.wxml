@@ -13,7 +13,7 @@
       </view>
       <view class="card-body">
         <text class="user-phone">{{item.phone}}</text>
-        <text class="user-time">申请时间: {{item.create_time}}</text>
+        <text class="user-time">申请时间: {{item.create_time_display}}</text>
       </view>
       <view class="card-actions">
         <button class="btn-approve" data-user-id="{{item._id}}" bindtap="onApprove">通过</button>
