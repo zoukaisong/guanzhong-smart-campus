@@ -23,9 +23,9 @@
   color: #666;
   border: 2rpx solid transparent;
 }
-.tag-item-selected {
-  background: #1a6e3e;
-  color: #fff;
+.tag-item.tag-item-selected {
+  background: #1a6e3e !important;
+  color: #fff !important;
   font-weight: 500;
 }
 
