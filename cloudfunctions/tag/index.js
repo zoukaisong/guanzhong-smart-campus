@@ -10,7 +10,7 @@ function fail(code = 400, message = '操作失败') { return { code, message, da
 function pageResult(list, total, page, pageSize) { return { code: 0, message: 'ok', data: { list, total, page, pageSize } } }
 async function getUserByOpenId(db, openid) {
   if (!openid) return null
-  const result = await db.collection('users').where({ openid, is_deleted: false }).get()
+  const result = await db.collection('users').where({ openid, is_deleted: _.neq(true) }).get()
   return result.data[0] || null
 }
 function requireRole(user, allowedRoles) {
@@ -107,7 +107,7 @@ async function handleSubmit(data, user) {
   if (!studentId) return fail(400, '请选择学生')
   if (!tagNames || !Array.isArray(tagNames) || tagNames.length === 0) return fail(400, '请至少选择一个标签')
 
-  const studentResult = await db.collection('students').where({ _id: studentId, is_deleted: false }).get()
+  const studentResult = await db.collection('students').where({ _id: studentId, is_deleted: _.neq(true) }).get()
   if (!studentResult.data.length) return fail(404, '学生不存在')
   const student = studentResult.data[0]
 
@@ -184,7 +184,7 @@ async function handleRemove(data, user) {
   const { studentId, tagName } = data
   if (!studentId || !tagName) return fail(400, '学生ID和标签名不能为空')
 
-  const studentResult = await db.collection('students').where({ _id: studentId, is_deleted: false }).get()
+  const studentResult = await db.collection('students').where({ _id: studentId, is_deleted: _.neq(true) }).get()
   if (!studentResult.data.length) return fail(404, '学生不存在')
   const student = studentResult.data[0]
   if (user.role === 'class_teacher' && student.class_id !== user.class_id) return fail(403, '您只能操作本班学生')
@@ -204,7 +204,7 @@ async function handleRemove(data, user) {
 async function handleStudentTagHistory(data, user) {
   const { studentId, page = 1, pageSize = 20 } = data
   if (!studentId) return fail(400, '学生ID不能为空')
-  const where = { student_id: studentId, is_deleted: false }
+  const where = { student_id: studentId, is_deleted: _.neq(true) }
   const total = await db.collection('student_tags').where(where).count()
   const list = await db.collection('student_tags').where(where).orderBy('create_time', 'desc').skip((page - 1) * pageSize).limit(pageSize).get()
   return pageResult(list.data, total.total, page, pageSize)
@@ -213,7 +213,7 @@ async function handleStudentTagHistory(data, user) {
 // ==================== 分类统计 ====================
 async function handleCategoryStats(data, user) {
   const { classId, gradeId } = data
-  const where = { is_deleted: false }
+  const where = { is_deleted: _.neq(true) }
   if (classId) where.class_id = classId
   if (gradeId) where.grade_id = gradeId
 

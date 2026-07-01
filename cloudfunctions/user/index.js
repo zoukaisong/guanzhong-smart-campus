@@ -10,7 +10,7 @@ function fail(code = 400, message = '操作失败') { return { code, message, da
 function pageResult(list, total, page, pageSize) { return { code: 0, message: 'ok', data: { list, total, page, pageSize } } }
 async function getUserByOpenId(db, openid) {
   if (!openid) return null
-  const result = await db.collection('users').where({ openid, is_deleted: false }).get()
+  const result = await db.collection('users').where({ openid, is_deleted: _.neq(true) }).get()
   return result.data[0] || null
 }
 function requireRole(user, allowedRoles) {
@@ -47,7 +47,7 @@ async function handleList(data, user) {
   if (roleErr) return roleErr
 
   const { page = 1, pageSize = 20, role, keyword, status } = data
-  const where = { is_deleted: false }
+  const where = { is_deleted: _.neq(true) }
   if (role) where.role = role
   if (status) where.status = status
   if (keyword) where.name = db.RegExp({ regexp: keyword, options: 'i' })

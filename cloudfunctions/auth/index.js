@@ -13,7 +13,7 @@ function fail(code = 400, message = '操作失败') {
 }
 async function getUserByOpenId(db, openid) {
   if (!openid) return null
-  const result = await db.collection('users').where({ openid, is_deleted: false }).get()
+  const result = await db.collection('users').where({ openid, is_deleted: _.neq(true) }).get()
   return result.data[0] || null
 }
 function generateId(prefix) {
@@ -77,7 +77,7 @@ async function handleRegister(openid, data) {
   if (!allowedRoles.includes(role)) return fail(400, '无效的角色类型')
   if (role === 'admin') return fail(403, '管理员不可自行注册')
 
-  const existing = await db.collection('users').where({ openid, is_deleted: false }).get()
+  const existing = await db.collection('users').where({ openid, is_deleted: _.neq(true) }).get()
   if (existing.data.length > 0) {
     const u = existing.data[0]
     if (u.status === 'approved') return fail(422, '您已注册并通过审核')
@@ -135,8 +135,8 @@ async function handlePendingList(openid, data) {
   if (!admin || admin.role !== 'admin') return fail(403, '仅管理员可查看')
   const { page = 1, pageSize = 20 } = data
 
-  const total = await db.collection('users').where({ status: 'pending', is_deleted: false }).count()
-  const list = await db.collection('users').where({ status: 'pending', is_deleted: false })
+  const total = await db.collection('users').where({ status: 'pending', is_deleted: _.neq(true) }).count()
+  const list = await db.collection('users').where({ status: 'pending', is_deleted: _.neq(true) })
     .orderBy('create_time', 'desc').skip((page - 1) * pageSize).limit(pageSize).get()
 
   const safeList = list.data.map(u => ({ ...u, phone: maskPhone(u.phone), openid: undefined }))

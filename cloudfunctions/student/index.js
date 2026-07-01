@@ -10,7 +10,7 @@ function fail(code = 400, message = '操作失败') { return { code, message, da
 function pageResult(list, total, page, pageSize) { return { code: 0, message: 'ok', data: { list, total, page, pageSize } } }
 async function getUserByOpenId(db, openid) {
   if (!openid) return null
-  const result = await db.collection('users').where({ openid, is_deleted: false }).get()
+  const result = await db.collection('users').where({ openid, is_deleted: _.neq(true) }).get()
   return result.data[0] || null
 }
 function requireRole(user, allowedRoles) {
@@ -19,7 +19,7 @@ function requireRole(user, allowedRoles) {
   return null
 }
 function buildPermissionFilter(user, baseWhere = {}) {
-  const where = { is_deleted: false, ...baseWhere }
+  const where = { is_deleted: _.neq(true), ...baseWhere }
   switch (user.role) {
     case 'class_teacher': where.class_id = user.class_id || '__none__'; break
     case 'principal': case 'vice_principal': case 'admin': case 'director': case 'vice_director': break
@@ -80,7 +80,7 @@ async function handleList(data, user) {
 async function handleDetail(data, user) {
   const { studentId } = data
   if (!studentId) return fail(400, '学生ID不能为空')
-  const result = await db.collection('students').where({ _id: studentId, is_deleted: false }).get()
+  const result = await db.collection('students').where({ _id: studentId, is_deleted: _.neq(true) }).get()
   if (!result.data.length) return fail(404, '学生不存在')
   const student = result.data[0]
 
